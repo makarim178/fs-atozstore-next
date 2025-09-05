@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 // import { cookies } from 'next/headers'
 import { UUID } from 'crypto'
 import { SESSION_KEY } from '@/constants/common'
@@ -17,15 +17,9 @@ import { useCookies } from 'next-client-cookies'
 
 export async function createSession(sessionId: string, cookies: ReturnType<typeof useCookies>): Promise<CartType | null> {
     let session = cookies.get(SESSION_KEY)
-    console.log(session)
 
     if (session) return null
 
-    // sessionId = randomUUID()
-
-    // cookies.set(SESSION_KEY, sessionId)
-
-    // Create cart
     try {
         const cartResponse = await CartServices.createSession(sessionId as UUID)
         return cartResponse
@@ -33,4 +27,18 @@ export async function createSession(sessionId: string, cookies: ReturnType<typeo
         if (error instanceof Error && error?.message) console.error(error.message)
         throw new Error('Error Occured while creating session and cart.')
     }
+}
+
+
+export async function handleInitialSession(sessionId: string): Promise<CartType | null> {
+    if (!sessionId) {
+        console.error(SESSION_ERROR.SESSION_ID_NOT_AVAILABLE);
+        return null
+    }
+
+    let cart = await CartServices.getCart(sessionId as UUID)
+
+    if (cart) return cart
+
+    return await CartServices.createSession(sessionId as UUID)
 }

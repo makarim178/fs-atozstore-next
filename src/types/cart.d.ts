@@ -63,12 +63,12 @@ interface CartContextType {
     sessionId: UUID | null
     // isLoading: boolean
     // error: Error | null
-    // addToCart: (item: AddToCartPayloadType) => Promise<void>
-    // removeFromCart: (cartItemId: UUID) => Promise<void>
-    // incrementQuantity: (cartItemId: UUID) => Promise<void>
-    // decrementQuantity: (cartItemId: UUID) => Promise<void>
+    addItemToCart: (item: AddToCartPayloadType) => Promise<void>
+    removeFromCart: (cartItemId: UUID) => Promise<void>
+    incrementQuantity: (cartItemId: UUID) => Promise<void>
+    decrementQuantity: (cartItemId: UUID) => Promise<void>
     // createOrder: () => Promise<OrderType>
-    // clearCart: () => void
+    clearCart: () => void
     // getTotalItems: () => number
     // isItemAvailableOnCart: (productId: UUID) => boolean
     // retreiveCartItemIdByProductId: (productId: UUID) => UUID | null | undefined
@@ -76,8 +76,8 @@ interface CartContextType {
     // isUpdatingCart: boolean
     // isRemovingFromCart: boolean
     // isCreatingOrder: boolean, 
-    getCartId: string, 
-    setCookies: () => void,
+    getCartId: () => string, 
+    createCart: () => void,
     getTotalItemsInCart: () => number
 }
 
@@ -86,26 +86,28 @@ interface CartProviderPropsType {
 }
 
 interface UseCartActionPropsType {
-    cart: CartType | null | undefined
-    sessionId: UUID | null
-    addOptimisticItem: (item: CartItemType) => void
-    removeOptimisticItem: (cartItemId: UUID) => void
-    updateOptimisticQuantity: (cartItemId: UUID, quantity: number) => void
-    clearOptimisticCart: () => void
+    cart: CartType | null | undefined,
+    setCart: (item: Dispatch<SetStateAction<CartType | null>>) => void
+    // sessionId: UUID | null
+    // addOptimisticItem: (item: CartItemType) => void
+    // removeOptimisticItem: (cartItemId: UUID) => void
+    // updateOptimisticQuantity: (cartItemId: UUID, quantity: number) => void
+    // clearOptimisticCart: () => void
 }
 
 interface UseCartActionResponseType {
-    addToCart: (item: AddToCartPayloadType) => Promise<void>
+    createCart: () => void,
+    addItemToCart: (item: AddToCartPayloadType) => Promise<void>
     removeFromCart: (cartItemId: UUID) => Promise<void>
     incrementQuantity: (cartItemId: UUID) => Promise<void>
     decrementQuantity: (cartItemId: UUID) => Promise<void>
-    createOrder: () => Promise<OrderType>
+    // createOrder: () => Promise<OrderType>
     clearCart: () => void
-    getTotalItems: () => number
-    isAddingToCart: boolean
-    isUpdatingCart: boolean
-    isRemovingFromCart: boolean
-    isCreatingOrder: boolean
+    // getTotalItems: () => number
+    // isAddingToCart: boolean
+    // isUpdatingCart: boolean
+    // isRemovingFromCart: boolean
+    // isCreatingOrder: boolean
 }
 
 type CartItemComponentPropsType = {

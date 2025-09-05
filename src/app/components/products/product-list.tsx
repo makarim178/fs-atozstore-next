@@ -14,8 +14,8 @@ export default function ProductList() {
 
   return (
       <>
-            <h3 className="text-lg font-semibold px-4 title-text-theme">Products</h3>
-            <div className="flex flex-wrap justify-around">
+            <h3 className="text-lg font-semibold ">Products</h3>
+            <div className="flex flex-wrap justify-start gap-6">
                 {
                     products.map(product => (
                         <ProductCard key={product.productId} product={product}  />

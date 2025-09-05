@@ -33,3 +33,13 @@ type CartProviderPropsType = {
   cartData: CartType | null,
   children: React.ReactNode
 }
+
+type CallbackType = () => string
+
+type CardPropsType = {
+  children: React.ReactNode
+  imageUrl: string
+  title: string
+  price: number
+  description: string
+}

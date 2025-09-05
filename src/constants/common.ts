@@ -14,3 +14,8 @@ export const ROUTES = {
 }
 
 export const SESSION_KEY = 'session-key'
+
+export const cadFormatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'CAD'
+})

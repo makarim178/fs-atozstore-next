@@ -24,7 +24,7 @@ export const ProductFilterComponent = () => {
         setSearchQuery({ ...combQuery, ...query})
     }
     return (
-        <div className="flex flex-col px-2 gap-4">
+        <div className="flex flex-col px-12 gap-4 md:border-r-1 md:border-foreground/5 min-w-[412px]">
             <h3 className="text-lg font-semibold">Filters</h3>
             <ProductSearchInputComponent mutateQuery={mutateQuery} />
             <DoubleSlider mutateQuery={mutateQuery} />

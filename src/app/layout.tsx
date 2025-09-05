@@ -6,13 +6,15 @@ import Footer from "./components/layouts/Footer";
 import { productService } from "@/services/product.services";
 import { DEFAULT_SEARCH_QUERY } from "@/constants/requestTypes";
 import { ProductProvider } from "./providers/products-provider";
-import "./globals.css";
-import { createSession } from "@/lib/session";
 
 import { CookiesProvider } from "next-client-cookies/server";
 import CartProvider from "./providers/cart-provider";
 import { CartServices } from "@/services/cart.services";
 import { UUID } from "crypto";
+import "./globals.css";
+import { handleInitialSession } from "@/lib/session";
+import { cookies } from "next/headers";
+import { SESSION_KEY } from "@/constants/common";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,21 +36,29 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies()
+  const session = (await cookieStore).get(SESSION_KEY)
+  let sessionId = crypto.randomUUID()
+
+  if (session) sessionId = session.value
+  
   const productResponse = await productService.searchProduct(DEFAULT_SEARCH_QUERY)
   if (!productResponse) return <div className="flex items-center justify-center">Loading...</div>
 
-  const cartResponse = await CartServices.createSession(crypto.randomUUID() as UUID)
+  const cartResponse = await handleInitialSession(sessionId as UUID)
   if (!cartResponse) return <div className="flex items-center justify-center">Could not generate Cart...</div>
 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning={true}>
-          <body className="flex flex-col min-h-screen justify-between">
+          <body className="flex flex-col min-h-screen justify-around">
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <ProductProvider initialData={productResponse}>
                 <CookiesProvider>
                   <CartProvider cartData={cartResponse}>
                     <HeaderComponent />
-                    {children}
+                    <main className='pb-4 px-12 mt-20 flex-grow'>
+                      {children}
+                    </main>
                   </CartProvider>
                 </CookiesProvider>
               </ProductProvider>

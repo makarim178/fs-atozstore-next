@@ -10,14 +10,14 @@ export const ProductSearchInputComponent = memo(({ mutateQuery }: ProductSearchP
         mutateQuery({search: searchTerm.trim() })
     }
     return (
-        <div className="flex items-center gap-2 input-color-theme px-4 py-1 pr-4 rounded-md">
-            <SearchIcon />
+        <div className="flex items-center gap-2 bg-background/10 dark:bg-foreground/5 px-4 py-1 pr-4 rounded-md">
+            <SearchIcon className='text-background dark:text-foreground' />
             <input 
                 type="text" 
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder="Search" 
-                className="focus:outline-none w-full p-1 input-text-theme"
+                className="focus:outline-none w-full p-1"
             />
         </div>
     )

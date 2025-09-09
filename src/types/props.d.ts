@@ -43,3 +43,9 @@ type CardPropsType = {
   price: number
   description: string
 }
+
+type OrderCompletePropsType = {
+  params: {
+    orderId: string
+  }
+}

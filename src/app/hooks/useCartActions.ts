@@ -6,17 +6,19 @@ import { useCallback } from "react";
 import { useProductContext } from "./useProduct";
 import { CartServices } from "@/services/cart.services";
 import { calculateCartTotal, calculateLineTotal, getCartItem } from "@/lib/cart";
+import { useCartContext } from "./useCart";
+import { CART_ERRORS } from "@/constants/errors";
 
 export const useCartActions = ({ cart, setCart }: UseCartActionPropsType): UseCartActionResponseType => {
     const { products } = useProductContext()
     const cookies = useCookies()
-    const sessionId = cookies.get(SESSION_KEY)
+    const session = cookies.get(SESSION_KEY)
     
     const setCookies = useCallback(() => {
-        if (sessionId) return null
+        if (session !== 'undefined') return null
 
-        cookies.set(SESSION_KEY, sessionId as UUID)
-    }, [sessionId])
+        cookies.set(SESSION_KEY, cart?.sessionId as UUID)
+    }, [session])
 
     const addItemToCart = async (item: AddToCartPayloadType): Promise<void> => {
         if (!cart) {
@@ -150,7 +152,10 @@ export const useCartActions = ({ cart, setCart }: UseCartActionPropsType): UseCa
         }
     }
 
-    const clearCart = () => setCart((prev: CartType) => ({ ...prev, items: [], total: 0}))
+    const clearCart = () => setCart((prev: CartType) => {
+        cookies.remove(SESSION_KEY)
+        return { ...prev, items: [], total: 0}
+    })
 
     return {
         createCart: setCookies,

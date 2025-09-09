@@ -1,4 +1,5 @@
 import { BASE_URI, URI } from '@/constants/api'
+import { CART_ERRORS, SESSION_ERROR } from '@/constants/errors'
 import { REQUEST_HEADERS } from '@/constants/requestTypes'
 import type { 
     AddToCartPayloadType, 
@@ -18,19 +19,21 @@ export const CartServices = {
     createSession: async (sessionId: UUID): Promise<CartType> => {
         const response = await fetch(`${BASE_URI}${URI.CREATE_SESSION}${sessionId}`, postRequestOptions())
         if (!response.ok) {
-            throw new Error('Failed to create cart session')
+            throw new Error(SESSION_ERROR.FAILED_CART_SESSION)
         }
         return await response.json()
     },
-    getCart: async (sessionId: UUID): Promise<CartType> => {
-        if (!sessionId) throw new Error('Session Id is required to retrieve Cart')
+    getCart: async (sessionId: UUID): Promise<CartType | null> => {
+        if (!sessionId) throw new Error(SESSION_ERROR.SESSION_ID_NOT_AVAILABLE)
         const response = await fetch(`${BASE_URI}${URI.GET_CART}${sessionId}`
             , {
                 method: 'GET'
             })
         if (!response.ok) {
-            throw new Error('Failed to fetch cart')
+            throw new Error(CART_ERRORS.FAILED_CART)
         }
+
+        if (response.status === 204) return null
         return await response.json()
     },
     addToCart: async (payload: AddToCartPayloadType): Promise<CartItemType> => {
@@ -60,22 +63,5 @@ export const CartServices = {
             throw new Error('Failed to remove cart item')
         }
         return true
-    },
-    createOrder: async (sessionId: UUID | null): Promise<OrderType> => {
-        if (!sessionId) throw new Error('Cannot generate order without sessionId')
-        const response = await fetch(`${BASE_URI}${URI.CREATE_ORDER}${sessionId}`, postRequestOptions())
-        if (!response.ok) {
-            throw new Error('Failed to create order')
-        }
-        return await response.json()
-    },
-    getOrder: async (orderId: string): Promise<OrderType | null> => {
-        if (!orderId) throw new Error('Could not retrieve Order, requires order Id')
-        const response = await fetch(`${BASE_URI}${URI.GET_ORDER}${orderId}`)
-        if (!response.ok) {
-            throw new Error('Failed to retrieve Order Details')
-        }
-        return response.json()
     }
-
 }

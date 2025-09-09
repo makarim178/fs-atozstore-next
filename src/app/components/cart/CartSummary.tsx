@@ -1,19 +1,27 @@
 'use client'
 import { useCartContext } from "@/app/hooks/useCart"
+import { ORDER_ERROR, SESSION_ERROR } from "@/constants/errors"
 import { throttle } from "@/lib/common"
+import { OrderServices } from "@/services/order.services"
+import { useRouter } from "next/navigation"
 
 export const CartSummary = () => {
     const { cart, getTotalItemsInCart } = useCartContext()
+    const router = useRouter()
     // const navigate = useNavigate()
 
     const handleCheckout = async () => {
+        if (!cart) {
+            throw new Error(SESSION_ERROR.SESSION_ID_NOT_AVAILABLE)
+        }
         try {
-            // const order = await createOrder()
+            const order = await OrderServices.createOrder(cart?.sessionId)
+            router.push(`/order/${order?.id}`)
             // toast.success(`Order has been created. Order ID: ${order.id}`)
             // navigate(`${ROUTES.ORDER}/${order.id}`)
         } catch (error) {
             // toast.error('Order could not be created due to internal errors!')
-            if (error instanceof Error) console.error("Order creation failed:", error.message)
+            if (error instanceof Error) console.error(ORDER_ERROR.FAILED_ORDER)
         }
     }
 

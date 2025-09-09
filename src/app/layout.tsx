@@ -38,9 +38,9 @@ export default async function RootLayout({
 }>) {
   const cookieStore = cookies()
   const session = (await cookieStore).get(SESSION_KEY)
-  let sessionId = crypto.randomUUID()
+  let sessionId
 
-  if (session) sessionId = session.value
+  if (session && session?.value !== 'undefined') sessionId = session.value
   
   const productResponse = await productService.searchProduct(DEFAULT_SEARCH_QUERY)
   if (!productResponse) return <div className="flex items-center justify-center">Loading...</div>

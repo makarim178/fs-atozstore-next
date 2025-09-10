@@ -1,4 +1,4 @@
-import { SESSION_KEY } from "@/constants/common";
+import { COOKIE_CONFIG, SESSION_KEY } from "@/constants/common";
 import { AddToCartPayloadType, CartItemType, CartType, ItemType, UpdateCartItemPayloadType, UseCartActionPropsType, UseCartActionResponseType } from "@/types/cart";
 import { UUID } from "crypto";
 import { useCookies } from "next-client-cookies";
@@ -6,19 +6,18 @@ import { useCallback } from "react";
 import { useProductContext } from "./useProduct";
 import { CartServices } from "@/services/cart.services";
 import { calculateCartTotal, calculateLineTotal, getCartItem } from "@/lib/cart";
-import { useCartContext } from "./useCart";
 import { CART_ERRORS } from "@/constants/errors";
 
 export const useCartActions = ({ cart, setCart }: UseCartActionPropsType): UseCartActionResponseType => {
     const { products } = useProductContext()
     const cookies = useCookies()
-    const session = cookies.get(SESSION_KEY)
+    const session = cookies.get(SESSION_KEY)                              
     
-    const setCookies = useCallback(() => {
-        if (session !== 'undefined') return null
-
-        cookies.set(SESSION_KEY, cart?.sessionId as UUID)
-    }, [session])
+    const setCookies = () => {
+        if (session !== 'undefined' && session) return null
+        if (!cart?.sessionId) return null
+        cookies.set(SESSION_KEY, cart.sessionId, COOKIE_CONFIG)
+    }
 
     const addItemToCart = async (item: AddToCartPayloadType): Promise<void> => {
         if (!cart) {

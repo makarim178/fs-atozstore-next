@@ -1,12 +1,12 @@
 'use client'
-import { useCartContext } from "@/app/hooks/useCart"
+import { useCartContext } from "@/hooks/useCart"
 import { ORDER_ERROR, SESSION_ERROR } from "@/constants/errors"
 import { throttle } from "@/lib/common"
 import { OrderServices } from "@/services/order.services"
 import { useRouter } from "next/navigation"
 
 export const CartSummary = () => {
-    const { cart, getTotalItemsInCart } = useCartContext()
+    const { cart, getTotalItemsInCart, clearCart } = useCartContext()
     const router = useRouter()
     // const navigate = useNavigate()
 
@@ -16,7 +16,10 @@ export const CartSummary = () => {
         }
         try {
             const order = await OrderServices.createOrder(cart?.sessionId)
-            router.push(`/order/${order?.id}`)
+            if (order) {
+                clearCart()
+                router.push(`/order/${order?.id}`)
+            }
             // toast.success(`Order has been created. Order ID: ${order.id}`)
             // navigate(`${ROUTES.ORDER}/${order.id}`)
         } catch (error) {

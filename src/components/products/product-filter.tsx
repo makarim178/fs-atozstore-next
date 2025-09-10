@@ -5,8 +5,8 @@ import { useState } from "react"
 import { ProductSearchCriteria } from "@/types/products"
 import { PRICE_RANGE } from "@/constants/common"
 import { DEFAULT_PAGE_SIZE } from "@/constants/requestTypes"
-import { DoubleSlider } from "@/app/components/ui/double-slider"
-import { useProductContext } from "@/app/hooks/useProduct"
+import { DoubleSlider } from "@/components/ui/double-slider"
+import { useProductContext } from "@/hooks/useProduct"
 
 export const ProductFilterComponent = () => {
     const [combQuery, setCombQuery] = useState<ProductSearchCriteria>({

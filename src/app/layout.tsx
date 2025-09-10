@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { HeaderComponent } from "./components/layouts/Header";
-import { ThemeProvider } from "@/app/providers/theme-provider";
-import Footer from "./components/layouts/Footer";
+import { HeaderComponent } from "@/components/layouts/Header";
+import { ThemeProvider } from "@/providers/theme-provider";
+import Footer from "@/components/layouts/Footer";
 import { productService } from "@/services/product.services";
 import { DEFAULT_SEARCH_QUERY } from "@/constants/requestTypes";
-import { ProductProvider } from "./providers/products-provider";
+import { ProductProvider } from "../providers/products-provider";
 
 import { CookiesProvider } from "next-client-cookies/server";
-import CartProvider from "./providers/cart-provider";
+import CartProvider from "../providers/cart-provider";
 import { CartServices } from "@/services/cart.services";
 import { UUID } from "crypto";
 import "./globals.css";
 import { handleInitialSession } from "@/lib/session";
 import { cookies } from "next/headers";
 import { SESSION_KEY } from "@/constants/common";
+import { NextAuthProvider } from "@/providers/session-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,19 +52,21 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning={true}>
           <body className="flex flex-col min-h-screen justify-around">
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <ProductProvider initialData={productResponse}>
-                <CookiesProvider>
-                  <CartProvider cartData={cartResponse}>
-                    <HeaderComponent />
-                    <main className='pb-4 px-12 mt-20 flex-grow'>
-                      {children}
-                    </main>
-                  </CartProvider>
-                </CookiesProvider>
-              </ProductProvider>
-            </ThemeProvider>
-            <Footer />
+            <NextAuthProvider>
+              <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                <ProductProvider initialData={productResponse}>
+                  <CookiesProvider>
+                    <CartProvider cartData={cartResponse}>
+                      <HeaderComponent />
+                      <main className='pb-4 px-12 mt-20 flex-grow'>
+                        {children}
+                      </main>
+                    </CartProvider>
+                  </CookiesProvider>
+                </ProductProvider>
+              </ThemeProvider>
+              <Footer />
+            </NextAuthProvider>
           </body>
     </html>
   );

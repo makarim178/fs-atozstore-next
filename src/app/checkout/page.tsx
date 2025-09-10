@@ -1,5 +1,5 @@
-import { CartListComponent } from "../components/cart/CartListComponent";
-import { CartSummary } from "../components/cart/CartSummary";
+import { CartListComponent } from "@/components/cart/CartListComponent";
+import { CartSummary } from "@/components/cart/CartSummary";
 
 export default function CheckoutPage() {
     return (

@@ -3,7 +3,6 @@ import { SESSION_KEY } from '@/constants/common'
 import { CartServices } from '@/services/cart.services'
 import { CartType } from '@/types/cart'
 import { useCookies } from 'next-client-cookies'
-import { SESSION_ERROR } from '@/constants/errors'
 
 export async function createSession(sessionId: string, cookies: ReturnType<typeof useCookies>): Promise<CartType | null> {
     let session = cookies.get(SESSION_KEY)

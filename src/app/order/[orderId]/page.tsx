@@ -1,4 +1,4 @@
-import { NavigationBtn } from "@/app/components/ui/navigation-button";
+import { NavigationBtn } from "@/components/ui/navigation-button";
 import { OrderServices } from "@/services/order.services";
 import { OrderType } from "@/types/cart";
 import { OrderCompletePropsType } from "@/types/props";

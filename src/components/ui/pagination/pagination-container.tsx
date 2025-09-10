@@ -1,6 +1,6 @@
 import type { PaginationType} from '@/types/products'
 import { PageNumber } from './page-number'
-import { useProductContext } from '@/app/hooks/useProduct'
+import { useProductContext } from '@/hooks/useProduct'
 
 export const Pagination = () => {
     const { pagination : { 

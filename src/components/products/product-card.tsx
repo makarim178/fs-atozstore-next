@@ -1,10 +1,8 @@
 // import { useCart } from '@/hooks/cart/useCart'
 // import type { AddToCartPayloadType } from '@/types/cart'
-import { useCartContext } from '@/app/hooks/useCart'
-import { getCartItem } from '@/lib/cart'
+import { useCartContext } from '@/hooks/useCart'
 import { AddToCartPayloadType } from '@/types/cart'
 import type { ProductType } from '@/types/products'
-import { error } from 'console'
 import { throttle } from '@/lib/common'
 // import { CircularProgress } from '@mui/material'
 import type { UUID } from 'crypto'
@@ -12,8 +10,8 @@ import { useState } from 'react'
 // import { toast } from 'sonner'
 // import AddIcon from '@mui/icons-material/Add'
 import { Plus } from 'lucide-react'
-import Image from 'next/image'
 import { CardComponent } from '../ui/card'
+import { CART_ERRORS } from '@/constants/errors'
 
 export const ProductCard = ({ product }: { product: ProductType}) => {
     // const [id, setId] = useState<UUID | null>(null)

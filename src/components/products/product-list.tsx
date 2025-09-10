@@ -1,5 +1,5 @@
 'use client'
-import { useProductContext } from '@/app/hooks/useProduct'
+import { useProductContext } from '@/hooks/useProduct'
 // import { productService } from '@/services/product.services'  
 import { ProductCard } from './product-card'
 import { Pagination } from '../ui/pagination/pagination-container'

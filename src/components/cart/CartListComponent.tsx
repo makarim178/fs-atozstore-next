@@ -1,7 +1,8 @@
 'use client'
 // import { useCart } from "@/app/hooks/useCart"
-import { useCartContext } from "@/app/hooks/useCart"
+import { useCartContext } from "@/hooks/useCart"
 import { CartItemComponent } from "./CartItemComponent"
+import { CART } from "@/constants/notifications"
 
 export const CartListComponent = () => {
     const { cart } = useCartContext()
@@ -15,9 +16,11 @@ export const CartListComponent = () => {
             {/* <h4 className="text-sm font-semibold title-text-theme">Total: {cart?.total.toFixed(2)}</h4> */}
             {/* <div className="flex flex-col md:flex-row md:flex-wrap"> */}
                 {
+                    cart?.items && cart?.items?.length > 0 ?
                     cart?.items?.map(item => (
                         <CartItemComponent key={item.productId} item={item} />
                     ))
+                    : <span>{ CART.EMPTY}</span>
                     // optimisticCart?.items?.map(item => (
                     //     <CartItemComponent key={item.productId} item={item} />
                     // ))

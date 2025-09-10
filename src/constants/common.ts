@@ -19,3 +19,10 @@ export const cadFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'CAD'
 })
+
+const expiryDate = new Date()
+expiryDate.setDate(expiryDate.getDate() + 1)
+
+export const COOKIE_CONFIG = {
+    expires: expiryDate
+}

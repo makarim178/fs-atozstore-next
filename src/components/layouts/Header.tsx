@@ -1,7 +1,7 @@
 'use client'
 import { ShoppingCart } from 'lucide-react'
 import { ThemeButtonComponent } from '../theme/theme-button'
-import { useCartContext } from '@/app/hooks/useCart'
+import { useCartContext } from '@/hooks/useCart'
 import Link from 'next/link'
 import { CartListComponent } from '../cart/CartListComponent'
 export const HeaderComponent = () => {

@@ -17,6 +17,8 @@ import { cookies } from "next/headers";
 import { SESSION_KEY } from "@/constants/common";
 import { NextAuthProvider } from "@/providers/session-provider";
 
+import { createClient } from "@/utils/supabase/server";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -37,6 +39,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const supabase = await createClient()
+  const {data: products} = await supabase.from('products').select('*')
+
+  console.log(products?.slice(0, 5))
   const cookieStore = cookies()
   const session = (await cookieStore).get(SESSION_KEY)
   let sessionId

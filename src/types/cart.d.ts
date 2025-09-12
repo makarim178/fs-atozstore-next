@@ -15,11 +15,11 @@ type CartItemType = {
 } & ItemType
 
 type CartType = {
-    id: UUID
-    sessionId: UUID
+    id: UUID | null
+    sessionId: UUID | null
     items: CartItemType[]
     total: number
-}
+} & ErrorHandlerResponseType & LoaderType
 
 type AddToCartRequestType = {
     productId: UUID
@@ -76,9 +76,12 @@ interface CartContextType {
     // isUpdatingCart: boolean
     // isRemovingFromCart: boolean
     // isCreatingOrder: boolean, 
-    getCartId: () => string, 
+    getCartId: () => string | null, 
     createCart: () => void,
-    getTotalItemsInCart: () => number
+    getTotalItemsInCart: () => number,
+    isLoading: boolean
+    isError: boolean
+    errorMessage: string
 }
 
 interface CartProviderPropsType {

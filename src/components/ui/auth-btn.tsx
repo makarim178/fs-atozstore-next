@@ -5,7 +5,6 @@ import { FaGithub } from 'react-icons/fa6'
 
 export const AuthBtn = () => {
     const { data: session } = useSession()
-    console.log(session);
     
     if (!session) {
         signIn('anonymous', { redirect: false })

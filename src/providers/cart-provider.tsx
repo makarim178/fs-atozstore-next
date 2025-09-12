@@ -19,7 +19,6 @@ import { CartContext } from "@/contexts/cart-context"
 // }
 
 // const generateSession = CartServices.createSession
-// const generateSession = productService.promiseSearchProduct()
 
 export default function CartProvider ({ cartData,  children }: CartProviderPropsType) {
     const [cart, setCart] = useState<CartType | null >(cartData)
@@ -38,14 +37,17 @@ export default function CartProvider ({ cartData,  children }: CartProviderProps
     const contextValue: CartContextType = {
         cart: cart,
         sessionId: null,
-        getCartId: useCallback(() => cart.id, [cart.id]),
+        getCartId: useCallback(() => cart.id ?? null, [cart.id]),
         createCart,
         addItemToCart,
         incrementQuantity,
         decrementQuantity,
         removeFromCart,
         clearCart,
-        getTotalItemsInCart: () => getTotalItemCount(cart?.items ?? [])
+        getTotalItemsInCart: () => getTotalItemCount(cart?.items ?? []),
+        isLoading: !!cart.isLoading,
+        isError: !!cart.isError,
+        errorMessage: cart.errorMessage ?? ''
     }
     
     return (

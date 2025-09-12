@@ -1,28 +1,27 @@
 'use client'
 import { useProductContext } from '@/hooks/useProduct'
-// import { productService } from '@/services/product.services'  
 import { ProductCard } from './product-card'
 import { Pagination } from '../ui/pagination/pagination-container'
-// const productsQuery = productService.promiseSearchProduct()
+import { useMemo } from 'react'
+import ProductCardSkeleton from './product-cart-skeleton'
 
 export default function ProductList() {
-  const { products } = useProductContext()
-
-  if (!products) {
-    return 
-  }
+  const { products, isLoading } = useProductContext()
+  const skeletonList: string[] = useMemo(() => Array.from({ length: 8 }, (_, i) => `skeleton-product-${i+1}`), [])
 
   return (
-      <>
-            <h3 className="text-lg font-semibold ">Products</h3>
-            <div className="flex flex-wrap justify-start gap-6">
-                {
-                    products.map(product => (
-                        <ProductCard key={product.productId} product={product}  />
-                    ))
-                }
-            </div>
-            <Pagination />
-        </>
-  );
+    <>
+      <h3 className="text-lg font-semibold ">Products</h3>
+      <div className="flex flex-wrap justify-start gap-6">
+        {
+          isLoading 
+            ?  skeletonList.map(id => <ProductCardSkeleton key={id} />)
+            : products.map(product => (
+                <ProductCard key={product.productId} product={product}  />
+            ))
+        }
+      </div>
+      <Pagination />
+    </>
+  )
 }

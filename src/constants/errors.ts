@@ -14,3 +14,9 @@ export const ORDER_ERROR = {
     'NO_ORDER_ID': 'Order is required!',
     'FAILED_ORDER': 'Failed to fetch Order details!'
 }
+
+export const PRODUCT_ERROR = {
+    'NO_PRODUCT_ID': 'Product is required!',
+    'FAILED_PRODUCT': 'Failed to fetch Product details!',
+    'FAILED_PRODUCTS': 'Failed to fetch Products!'
+}

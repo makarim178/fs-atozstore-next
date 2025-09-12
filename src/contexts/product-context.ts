@@ -14,6 +14,8 @@ export const ProductContext = createContext<ProductsContextType>({
     },
     searchQuery: DEFAULT_SEARCH_QUERY,
     setSearchQuery: () => {},
-    loading: false,
+    isLoading: false,
+    isError: false,
+    errorMessage: '',
     error: null
 })

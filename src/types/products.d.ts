@@ -13,8 +13,8 @@ type ProductType = {
 }
 
 type ProductSearchResponseType = {
-    products: Product[]
-} & PaginationType
+    products: Product[] | []
+} & PaginationType & ErrorHandlerResponseType & LoaderType
 
 type ProductSearchCriteria = {
     search?: string
@@ -38,7 +38,9 @@ interface ProductsContextType {
     pagination: PaginationType
     searchQuery: ProductSearchCriteria
     setSearchQuery: (query: ProductSearchCriteria) => void
-    loading: boolean
+    isLoading: boolean
+    isError: boolean
+    errorMessage: string
     // fetching: boolean
     error: Error | null
     // refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<ProductSearchResponseType, Error>>

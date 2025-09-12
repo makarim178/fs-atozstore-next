@@ -1,0 +1,12 @@
+import type { Prisma } from '../../prisma';
+import { z } from 'zod';
+import { TagOrderByWithRelationInputObjectSchema } from './objects/TagOrderByWithRelationInput.schema';
+import { TagWhereInputObjectSchema } from './objects/TagWhereInput.schema';
+import { TagWhereUniqueInputObjectSchema } from './objects/TagWhereUniqueInput.schema';
+import { TagCountAggregateInputObjectSchema } from './objects/TagCountAggregateInput.schema';
+import { TagMinAggregateInputObjectSchema } from './objects/TagMinAggregateInput.schema';
+import { TagMaxAggregateInputObjectSchema } from './objects/TagMaxAggregateInput.schema';
+
+export const TagAggregateSchema: z.ZodType<Prisma.TagAggregateArgs> = z.object({ orderBy: z.union([TagOrderByWithRelationInputObjectSchema, TagOrderByWithRelationInputObjectSchema.array()]).optional(), where: TagWhereInputObjectSchema.optional(), cursor: TagWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), TagCountAggregateInputObjectSchema ]).optional(), _min: TagMinAggregateInputObjectSchema.optional(), _max: TagMaxAggregateInputObjectSchema.optional() }).strict() as unknown as z.ZodType<Prisma.TagAggregateArgs>;
+
+export const TagAggregateZodSchema = z.object({ orderBy: z.union([TagOrderByWithRelationInputObjectSchema, TagOrderByWithRelationInputObjectSchema.array()]).optional(), where: TagWhereInputObjectSchema.optional(), cursor: TagWhereUniqueInputObjectSchema.optional(), take: z.number().optional(), skip: z.number().optional(), _count: z.union([ z.literal(true), TagCountAggregateInputObjectSchema ]).optional(), _min: TagMinAggregateInputObjectSchema.optional(), _max: TagMaxAggregateInputObjectSchema.optional() }).strict();

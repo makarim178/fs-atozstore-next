@@ -1,4 +1,5 @@
 import { BASE_URI, URI } from '@/constants/api'
+import { DEFAULT_CART_RESPONSE } from '@/constants/cart'
 import { CART_ERRORS, SESSION_ERROR } from '@/constants/errors'
 import { REQUEST_HEADERS } from '@/constants/requestTypes'
 import type { 
@@ -17,11 +18,25 @@ const postRequestOptions = (method: RequestType['method'] = 'POST'): PostRequest
 
 export const CartServices = {
     createSession: async (sessionId: UUID): Promise<CartType> => {
-        const response = await fetch(`${BASE_URI}${URI.CREATE_SESSION}${sessionId}`, postRequestOptions())
-        if (!response.ok) {
-            throw new Error(SESSION_ERROR.FAILED_CART_SESSION)
+        try {
+            const response = await fetch(`${BASE_URI}${URI.CREATE_SESSION}${sessionId}`, postRequestOptions())
+            if (!response.ok) throw new Error(CART_ERRORS.FAILED_CART)
+            const data = await response.json()
+
+            return {
+                ...DEFAULT_CART_RESPONSE,
+                ...data
+            }
+        } catch (error) {
+            let errorMessage = error instanceof Error ? error.message : CART_ERRORS.FAILED_CART
+            return {
+                ...DEFAULT_CART_RESPONSE,
+                sessionId,
+                isError: true,
+                isLoading: true,
+                errorMessage
+            }            
         }
-        return await response.json()
     },
     getCart: async (sessionId: UUID): Promise<CartType | null> => {
         if (!sessionId) throw new Error(SESSION_ERROR.SESSION_ID_NOT_AVAILABLE)
@@ -30,7 +45,7 @@ export const CartServices = {
                 method: 'GET'
             })
         if (!response.ok) {
-            throw new Error(CART_ERRORS.FAILED_CART)
+            // throw new Error(CART_ERRORS.FAILED_CART)
         }
 
         if (response.status === 204) return null

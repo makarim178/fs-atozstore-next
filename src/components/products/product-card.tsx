@@ -9,7 +9,7 @@ import type { UUID } from 'crypto'
 import { useState } from 'react'
 // import { toast } from 'sonner'
 // import AddIcon from '@mui/icons-material/Add'
-import { Plus } from 'lucide-react'
+import { GoPlus } from 'react-icons/go'
 import { CardComponent } from '../ui/card'
 import { CART_ERRORS } from '@/constants/errors'
 
@@ -21,7 +21,7 @@ export const ProductCard = ({ product }: { product: ProductType}) => {
         getCartId, 
         // isAddingToCart, 
         // retreiveCartItemIdByProductId,
-        incrementQuantity
+        incrementQuantity,
     } = useCartContext()
     
     
@@ -68,14 +68,14 @@ export const ProductCard = ({ product }: { product: ProductType}) => {
                 description={product.description}
             >
                 <button 
-                        onClick={throttleHandler}
-                        // disabled={isLoading()}
-                        className="mt-2 px-3 py-2 disabled:opacity-50 cursor-pointer 
-                            rounded-sm bg-background/30 hover:bg-background/50 hover:shadow-inner"
-                    >
-                        <Plus />
-                        {/* { isLoading() ? <CircularProgress size={12} color="inherit"/> : <AddIcon />} */}
-                    </button>
+                    onClick={throttleHandler}
+                    // disabled={isLoading()}
+                    className="mt-2 px-3 py-2 disabled:opacity-50 cursor-pointer 
+                        rounded-sm bg-background/30 hover:bg-background/50 hover:shadow-inner"
+                >
+                    <GoPlus />
+                    {/* { isLoading() ? <CircularProgress size={12} color="inherit"/> : <AddIcon />} */}
+                </button>
             </CardComponent>
         </div>
         // <div className="md:flex-6/12 lg:flex-4/12 p-4 flex flex-col gap-2 w-32 sm:w-42 md:w-56 lg:w-66 xl:w-86">

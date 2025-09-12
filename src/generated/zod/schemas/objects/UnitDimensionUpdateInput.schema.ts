@@ -1,0 +1,17 @@
+import { z } from 'zod';
+import type { Prisma } from '../../../prisma';
+import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
+import { DecimalFieldUpdateOperationsInputObjectSchema } from './DecimalFieldUpdateOperationsInput.schema';
+import { ProductUpdateOneRequiredWithoutUnit_dimensionNestedInputObjectSchema } from './ProductUpdateOneRequiredWithoutUnit_dimensionNestedInput.schema'
+
+const makeSchema = () => z.object({
+  id: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
+  weight: z.union([z.number(), z.lazy(() => DecimalFieldUpdateOperationsInputObjectSchema)]).optional(),
+  unit: z.union([z.string(), z.lazy(() => StringFieldUpdateOperationsInputObjectSchema)]).optional(),
+  height: z.union([z.number(), z.lazy(() => DecimalFieldUpdateOperationsInputObjectSchema)]).optional(),
+  width: z.union([z.number(), z.lazy(() => DecimalFieldUpdateOperationsInputObjectSchema)]).optional(),
+  depth: z.union([z.number(), z.lazy(() => DecimalFieldUpdateOperationsInputObjectSchema)]).optional(),
+  product: z.lazy(() => ProductUpdateOneRequiredWithoutUnit_dimensionNestedInputObjectSchema).optional()
+}).strict();
+export const UnitDimensionUpdateInputObjectSchema: z.ZodType<Prisma.UnitDimensionUpdateInput> = makeSchema() as unknown as z.ZodType<Prisma.UnitDimensionUpdateInput>;
+export const UnitDimensionUpdateInputObjectZodSchema = makeSchema();

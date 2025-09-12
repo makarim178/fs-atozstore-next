@@ -21,8 +21,7 @@ export const Pagination = () => {
         <div className="flex w-full justify-center content-center gap-4">
          {
             totalCount > 0 
-                ? pageNumerArr().map((pageObject: PageNumberType) => (<PageNumber key={pageObject.id} pageNumber={pageObject.pageNumber} currentPage={currentPage}/>))
-                : <h3 className="p-4 text-sm text-amber-950 dark:text-neutral-200">Could not find any products with current search terms.</h3>
+                && pageNumerArr().map((pageObject: PageNumberType) => (<PageNumber key={pageObject.id} pageNumber={pageObject.pageNumber} currentPage={currentPage}/>))
          }   
         </div>
     )

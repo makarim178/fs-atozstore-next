@@ -9,7 +9,7 @@ import { ProductProvider } from "../providers/products-provider";
 
 import { CookiesProvider } from "next-client-cookies/server";
 import CartProvider from "../providers/cart-provider";
-import { CartServices } from "@/services/cart.services";
+// import { CartServices } from "@/services/cart.services";
 import { UUID } from "crypto";
 import "./globals.css";
 import { handleInitialSession } from "@/lib/session";
@@ -39,11 +39,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const supabase = await createClient()
-  const {data: products} = await supabase.from('products').select('*')
-
-  console.log(products?.slice(0, 5))
   const cookieStore = cookies()
   const session = (await cookieStore).get(SESSION_KEY)
   let sessionId
@@ -53,8 +48,13 @@ export default async function RootLayout({
   const productResponse = await productService.searchProduct(DEFAULT_SEARCH_QUERY)
   if (!productResponse) return <div className="flex items-center justify-center">Loading...</div>
 
+  console.log('================PRODUCT RESPONSE================')
+  console.log(productResponse)
+
   const cartResponse = await handleInitialSession(sessionId as UUID)
   if (!cartResponse) return <div className="flex items-center justify-center">Could not generate Cart...</div>
+
+  // const cartResponse = await CartServices.createCart()
 
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning={true}>
@@ -76,5 +76,5 @@ export default async function RootLayout({
             </NextAuthProvider>
           </body>
     </html>
-  );
+  )
 }

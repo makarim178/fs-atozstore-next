@@ -48,7 +48,9 @@ export const ProductProvider = ({initialData, children} : { initialData: Product
             },
             searchQuery,
             setSearchQuery: debounceSearch,
-            loading: false,
+            isLoading: !!data.isLoading,
+            isError: !!data.isError,
+            errorMessage: data.errorMessage ?? '',
             error: null
         }}>
             { children }
